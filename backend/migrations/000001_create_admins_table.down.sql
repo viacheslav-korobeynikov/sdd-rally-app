@@ -1,0 +1,3 @@
+DROP TRIGGER IF EXISTS admins_updated_at;
+DROP TYPE IF EXISTS admin_status;
+DROP TABLE IF EXISTS admins
