@@ -27,11 +27,18 @@
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
-## Constitution Check
+## Проверка конституции
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+*GATE: обязательна до исследования (Phase 0) и повторно после дизайна (Phase 1).*
 
-[Gates determined based on constitution file]
+- Модульный монолит с четкими доменами (соревнования, СУ, экипажи, результаты, документы); без пересечений ответственности.
+- Backend на Go (Fiber) с чистой архитектурой: handler → service → repository; хэндлеры не ходят в БД; все запросы с context; middleware для логов/трейсов/аутентификации/авторизации.
+- UI: серверный рендеринг Templ + HTMX; без SPA; деградация без JS допустима.
+- Данные: единственный сторедж PostgreSQL, строгая нормализация; логика в БД запрещена (кроме технических/audit); изменения только миграциями.
+- Безопасность: login/password c bcrypt/argon2; минимальные роли (Главный организатор, Секретарь, Хронометраж, Наблюдатель); секреты не в репо; параметризованные запросы.
+- Наблюдаемость: структурированные JSON‑логи, базовые метрики (ошибки API, задержка отчетов, количество заявок и т.п.).
+- Качество: unit‑тесты для критичных доменных сервисов (расчеты результатов/штрафов); линтер перед мерджем.
+- Версионирование и документация: semver + changelog; актуальные README, диаграммы доменов, API‑контракты, каталоги модулей, QA/observability/security‑гайды.
 
 ## Project Structure
 

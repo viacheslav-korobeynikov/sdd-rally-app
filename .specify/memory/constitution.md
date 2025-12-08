@@ -1,50 +1,52 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Конституция SDD Rally App
 
-## Core Principles
+<!--
+Отчет о синхронизации
+- Версия: [нет] → 1.0.0
+- Измененные принципы: установлен новый набор
+- Добавленные разделы: Стандарты разработки; Инфраструктура и окружения
+- Удаленные разделы: нет
+- Обновленные шаблоны: ✅ .specify/templates/plan-template.md | ✅ .specify/templates/spec-template.md | ✅ .specify/templates/tasks-template.md
+- Отложенные TODO: нет
+-->
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+## Основные принципы
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### I. Модульный монолит с четкими раллийными доменами
+Кодовая база — модульный монолит с явными доменами (соревнования, маршруты/СУ, экипажи и участники, хронометраж/результаты, документы). Границы закреплены структурой каталогов и интерфейсами, чтобы любой домен можно было выделить без переписывания. Все бизнес‑правила ралли (классы, группы, стартовые ведомости, штрафы за опоздание/опережение) находятся в доменных сервисах, а не в хэндлерах или БД.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Чистая архитектура на Go (Fiber)
+Один сервис на Go (Fiber) с REST/HTTP API. Хэндлеры зависят от сервисов, сервисы — от репозиториев; прямых обращений к БД из хэндлеров нет. Каждый запрос использует context; middleware отвечает за логирование, трейсинг, аутентификацию и авторизацию. Только параметризованные запросы. Общие DTO/схемы валидируются централизованно.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### III. Серверный рендеринг Templ + HTMX
+Фронтенд — серверный рендеринг с Templ; HTMX применяются для частичных обновлений (таблицы заявок, протоколы, фильтры). Клиентская логика минимальна; SPA‑фреймворки не используются. Состояние UI выводится из ответов бэкенда; HTMX‑взаимодействия деградируют без JavaScript.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### IV. PostgreSQL — единый источник истины
+PostgreSQL хранит все данные с жесткой нормализацией ключевых сущностей (соревнование, СУ, экипаж, пилот, автомобиль, классификации, штрафы). Бизнес‑логика в триггерах/процедурах запрещена (кроме технических/audit кейсов). Все изменения схемы — только через миграции. По возможности сохраняется обратная совместимость контрактов данных.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### V. Безопасность, роли, наблюдаемость и качество
+Аутентификация — login/password, хэши bcrypt или argon2; секреты не хранятся в репозитории. Минимальный набор ролей (Главный организатор, Секретарь, Хронометраж, Наблюдатель) с принципом наименьших привилегий. Обязательны структурированные JSON‑логи и базовые метрики (ошибки запросов, задержка генерации отчетов, количество заявок и т.п.). Критичные доменные сервисы (расчет результатов и штрафов) должны иметь unit‑тесты. Выпуски — по semver (MAJOR.MINOR.PATCH) с changelog.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Стандарты разработки
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- Git: фича‑ветки, обязательный code review, линтеры (например, golangci-lint) до слияния.
+- Документация: README бэкенда, диаграмма основных доменных сущностей, описание ключевых API‑эндпоинтов; для фронтенда — схема основных экранов (регистрация, управление СУ, списки экипажей, протоколы результатов).
+- Миграции БД: инструмент миграций (например, golang-migrate); ручные правки схемы на проде запрещены.
+- API‑контракты: спецификации HTTP‑эндпоинтов в `docs/api-contracts/` (или эквивалент) синхронизированы с хэндлерами.
+- Каталог доменов и политики: `docs/service-module-catalog.md`; QA/тест‑гайд `docs/qa-testing-guidelines.md`; наблюдаемость `docs/observability.md`; безопасность `docs/security.md`.
+- Ref MCP: решения по библиотекам/протоколам уточняются по официальной документации.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Инфраструктура и окружения
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+- Локально: docker-compose для Go‑сервиса, PostgreSQL и вспомогательных инструментов. Конфигурация через переменные окружения/secret‑файлы.
+- Staging/Prod: контейнеры с прицелом на будущий Kubernetes. Конфигурации разделены по окружениям через env/secrets; CORS настраивается централизованно.
+- Поставка: предпочтительно неизменяемые образы; миграции запускаются в пайплайне до старта приложения.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+## Управление
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- Полномочия: Конституция главнее прошлых практик; в PR проверяется соблюдение принципов и требуемых документов.
+- Поправки: Вносятся PR с обоснованием, планом миграции/раскатки и обновленной версией. MAJOR — несовместимые изменения управления; MINOR — новые/расширенные принципы или разделы; PATCH — уточнения и правки формулировок.
+- Контроль: Ревью проверяет границы handler/service/repository, единственный сторедж Postgres, SSR+HTMX, безопасность (хэширование, роли, работа с секретами), миграции, логирование/метрики, обязательные тесты доменных расчетов.
+- Ссылки: поддерживать актуальность `Service / Module Catalog`, `API Contracts`, `QA / Testing Guidelines`, `Observability`, `Security` в соответствии с принципами.
+
+**Версия**: 1.0.0 | **Ратифицировано**: 2025-12-08 | **Последняя поправка**: 2025-12-08

@@ -5,7 +5,7 @@
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
-## User Scenarios & Testing *(mandatory)*
+## Сценарии пользователей и тестирование *(обязательно; учитывать принципы: Go/Fiber чистая архитектура, SSR Templ+HTMX, Postgres как единственный сторедж, безопасность ролей/хэшей, обязательные тесты для критичных доменных расчетов)*
 
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
