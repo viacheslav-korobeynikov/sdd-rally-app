@@ -3,8 +3,10 @@ module github.com/viacheslav-korobeynikov/sdd-rally-app
 go 1.24.4
 
 require (
+	github.com/gofiber/contrib/fiberzerolog v1.0.3
 	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/joho/godotenv v1.5.1
+	github.com/rs/zerolog v1.34.0
 )
 
 require (
