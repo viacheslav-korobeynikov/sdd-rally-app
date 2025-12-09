@@ -57,3 +57,17 @@ func NewDatabaseConfig() *DatabaseConfig {
 		Url: getString("POSTGRES_DSN", ""),
 	}
 }
+
+// Структура конфигурации логов
+type LogConfig struct {
+	Level  int
+	Format string
+}
+
+// Извлечение конфига логов из переменной окружения
+func NewLogConfig() *LogConfig {
+	return &LogConfig{
+		Level:  getInt("LOG_LEVEL", 0),
+		Format: getString("LOG_FORMAT", "json"),
+	}
+}

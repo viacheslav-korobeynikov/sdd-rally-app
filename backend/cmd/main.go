@@ -1,21 +1,27 @@
 package main
 
 import (
+	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/viacheslav-korobeynikov/sdd-rally-app/config"
-	"log"
+	"github.com/viacheslav-korobeynikov/sdd-rally-app/pkg/logger"
 )
 
 func main() {
 	// Получаем переменные окружения
 	config.Init()
 	// Получаем переменные окружения для БД
-	dbConfig := config.NewDatabaseConfig()
-	log.Println(dbConfig)
+	config.NewDatabaseConfig()
+	// Получаем переменные окружения для логов
+	logConfig := config.NewLogConfig()
+	customLogger := logger.NewLogger(logConfig)
 
 	// Создаем инстанс приложения
 	app := fiber.New()
+	app.Use(fiberzerolog.New(fiberzerolog.Config{
+		Logger: customLogger,
+	}))
 	// Middleware, который перезапускает приложение в случае, если произошел вызов panic
 	app.Use(recover.New())
 	// Настраиваем порт, который будет слушать приложение
