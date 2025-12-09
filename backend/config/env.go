@@ -71,3 +71,21 @@ func NewLogConfig() *LogConfig {
 		Format: getString("LOG_FORMAT", "json"),
 	}
 }
+
+// Структура SMTP
+type SMTPConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+}
+
+// Извленение данных для SMTP из переменных окружения
+func NewSMTPConfig() *SMTPConfig {
+	return &SMTPConfig{
+		Host:     getString("SMTP_HOST", "mailhog"),
+		Port:     getString("SMTP_PORT", "1025"),
+		User:     getString("SMTP_USER", ""),
+		Password: getString("SMTP_PASSWORD", ""),
+	}
+}
