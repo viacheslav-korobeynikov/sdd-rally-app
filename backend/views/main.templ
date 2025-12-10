@@ -1,6 +1,7 @@
 package views
 
 import "github.com/viacheslav-korobeynikov/sdd-rally-app/views/layout"
+import "github.com/viacheslav-korobeynikov/sdd-rally-app/views/components"
 
 templ Main() {
 	@layout.Layout(layout.LayoutProps{
@@ -9,7 +10,7 @@ templ Main() {
 	}) {
 		<main>
 			@layout.Header() {
-				@components.Title("Сделай организацию ралли проще")
+				@components.Title("Сделай ралли проще")
 				@components.SubTitle("Мы поможем вам организовать ралли 3 категории")
 			}
 		</main>

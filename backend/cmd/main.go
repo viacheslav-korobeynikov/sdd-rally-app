@@ -27,6 +27,8 @@ func main() {
 	}))
 	// Middleware, который перезапускает приложение в случае, если произошел вызов panic
 	app.Use(recover.New())
+
+	app.Static("/public", "./public") //Обработчик статики (публичных файлов)
 	// Создаем подключение к БД
 	dbpool := database.CreateDbPool(dbConfig, customLogger)
 	defer dbpool.Close()
