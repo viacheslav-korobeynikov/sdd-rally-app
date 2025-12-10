@@ -1,0 +1,17 @@
+package views
+
+import "github.com/viacheslav-korobeynikov/sdd-rally-app/views/layout"
+
+templ Main() {
+	@layout.Layout(layout.LayoutProps{
+		Title:           "Old Motors ралли",
+		MetaDescription: "Приложение для организации ралли 3 категории",
+	}) {
+		<main>
+			@layout.Header() {
+				@components.Title("Сделай организацию ралли проще")
+				@components.SubTitle("Мы поможем вам организовать ралли 3 категории")
+			}
+		</main>
+	}
+}
