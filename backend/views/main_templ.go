@@ -9,6 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/viacheslav-korobeynikov/sdd-rally-app/views/layout"
+import "github.com/viacheslav-korobeynikov/sdd-rally-app/views/components"
 
 func Main() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -59,7 +60,7 @@ func Main() templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Err = components.Title("Сделай организацию ралли проще").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = components.Title("Сделай ралли проще").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
