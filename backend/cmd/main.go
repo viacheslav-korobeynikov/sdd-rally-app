@@ -5,6 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/viacheslav-korobeynikov/sdd-rally-app/config"
+	"github.com/viacheslav-korobeynikov/sdd-rally-app/internal/home"
 	"github.com/viacheslav-korobeynikov/sdd-rally-app/pkg/database"
 	"github.com/viacheslav-korobeynikov/sdd-rally-app/pkg/logger"
 )
@@ -29,6 +30,7 @@ func main() {
 	// Создаем подключение к БД
 	dbpool := database.CreateDbPool(dbConfig, customLogger)
 	defer dbpool.Close()
+	home.NewHandler(app, customLogger)
 	// Настраиваем порт, который будет слушать приложение
 	app.Listen(":3000")
 
