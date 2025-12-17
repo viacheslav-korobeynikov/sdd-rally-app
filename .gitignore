@@ -1,32 +1,84 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
+# === Environment files ===
+.env
+.env.local
+.env.*.local
+
+# === Build artifacts ===
+/dist
+/build
+/bin
 *.exe
-*.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
+# === Go ===
+# Binaries
 *.test
-
-# Code coverage profiles and other test artifacts
 *.out
-coverage.*
-*.coverprofile
-profile.cov
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-# Go workspace file
+/vendor/
 go.work
-go.work.sum
 
-# env file
-.env
+# === IDEs ===
+# VSCode
+.vscode/
+*.code-workspace
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# JetBrains (GoLand, IntelliJ)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
+
+# === OS ===
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+.directory
+
+# === Logs ===
+*.log
+logs/
+*.log.*
+
+# === Database ===
+*.db
+*.sqlite
+*.sqlite3
+
+# === Temporary files ===
+/tmp
+/temp
+*.tmp
+
+# === Coverage and testing ===
+coverage.out
+coverage.html
+*.coverprofile
+
+# === Docker ===
+docker-compose.override.yml
+
+# === Secrets (safety net) ===
+*secret*
+*password*
+*.pem
+*.key
+!*.key.example
+
+# === Uploads (local development) ===
+/uploads
+/public/uploads
