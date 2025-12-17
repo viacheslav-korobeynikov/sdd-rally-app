@@ -1,0 +1,475 @@
+openapi: 3.0.3
+info:
+  title: SDD Rally App - Auth API
+  description: API для регистрации и аутентификации пользователей
+  version: 1.0.0
+  contact:
+    name: SDD Rally Team
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:3000
+    description: Local development
+  - url: https://staging.rally-app.example.com
+    description: Staging
+  - url: https://rally-app.example.com
+    description: Production
+
+tags:
+  - name: auth
+    description: Аутентификация и регистрация
+  - name: users
+    description: Управление пользователями
+
+paths:
+  /api/auth/register:
+    post:
+      tags:
+        - auth
+      summary: Регистрация нового пользователя
+      description: Создаёт новый аккаунт и автоматически авторизует пользователя
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Пользователь успешно зарегистрирован
+          headers:
+            Set-Cookie:
+              description: Session cookie
+              schema:
+                type: string
+                example: session_id=abc123; HttpOnly; Secure; SameSite=Lax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Невалидные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                validation:
+                  value:
+                    error:
+                      code: VALIDATION_ERROR
+                      message: Ошибка валидации данных
+                      details:
+                        - field: username
+                          message: Логин должен содержать минимум 3 символа
+                        - field: password
+                          message: Пароль должен содержать минимум 12 символов
+        '409':
+          description: Логин уже занят
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: USERNAME_TAKEN
+                  message: Пользователь с таким логином уже существует
+        '429':
+          description: Превышен лимит запросов
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: Слишком много попыток регистрации. Попробуйте позже
+
+  /api/auth/login:
+    post:
+      tags:
+        - auth
+      summary: Вход в систему
+      description: Аутентифицирует пользователя и создаёт сессию
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Успешный вход
+          headers:
+            Set-Cookie:
+              description: Session cookie
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Неверные учётные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: INVALID_CREDENTIALS
+                  message: Неверный логин или пароль
+        '423':
+          description: Аккаунт заблокирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: ACCOUNT_LOCKED
+                  message: Аккаунт временно заблокирован. Попробуйте через 30 минут
+        '429':
+          description: Превышен лимит попыток входа
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: RATE_LIMIT_EXCEEDED
+                  message: Слишком много попыток входа
+
+  /api/auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Выход из системы
+      description: Завершает текущую сессию пользователя
+      operationId: logout
+      security:
+        - cookieAuth: []
+      responses:
+        '204':
+          description: Успешный выход
+        '401':
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/me:
+    get:
+      tags:
+        - auth
+      summary: Получить текущего пользователя
+      description: Возвращает информацию о текущем авторизованном пользователе
+      operationId: getCurrentUser
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Информация о пользователе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/users:
+    get:
+      tags:
+        - users
+      summary: Список пользователей
+      description: Возвращает список всех пользователей (только для chief_organizer)
+      operationId: listUsers
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: per_page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, locked]
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum: [chief_organizer, secretary, timing, observer]
+      responses:
+        '200':
+          description: Список пользователей
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserResponse'
+                  meta:
+                    $ref: '#/components/schemas/PaginationMeta'
+        '401':
+          description: Не авторизован
+        '403':
+          description: Недостаточно прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error:
+                  code: FORBIDDEN
+                  message: Недостаточно прав доступа
+
+  /api/users/{id}/role:
+    patch:
+      tags:
+        - users
+      summary: Изменить роль пользователя
+      description: Обновляет роль пользователя (только для chief_organizer)
+      operationId: updateUserRole
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoleRequest'
+      responses:
+        '200':
+          description: Роль успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Невалидные данные
+        '401':
+          description: Не авторизован
+        '403':
+          description: Недостаточно прав
+        '404':
+          description: Пользователь не найден
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session_id
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - password
+        - password_confirm
+      properties:
+        username:
+          type: string
+          minLength: 3
+          maxLength: 50
+          pattern: '^[a-zA-Z0-9_-]+$'
+          description: Логин пользователя (только латиница, цифры, дефис, подчеркивание)
+          example: organizer_ivan
+        password:
+          type: string
+          minLength: 12
+          description: Пароль (минимум 12 символов, 1 заглавная, 1 строчная, 1 цифра)
+          example: SecurePass123
+        password_confirm:
+          type: string
+          description: Подтверждение пароля (должно совпадать с password)
+          example: SecurePass123
+
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: Логин пользователя
+          example: organizer_ivan
+        password:
+          type: string
+          description: Пароль пользователя
+          example: SecurePass123
+        captcha_answer:
+          type: string
+          description: Ответ на captcha (если требуется после 5 неудачных попыток)
+          example: "8"
+
+    UpdateRoleRequest:
+      type: object
+      required:
+        - role
+      properties:
+        role:
+          type: string
+          enum:
+            - chief_organizer
+            - secretary
+            - timing
+            - observer
+          description: Новая роль пользователя
+        reason:
+          type: string
+          maxLength: 500
+          description: Причина изменения роли (опционально)
+          example: Назначен секретарём соревнования
+
+    UserResponse:
+      type: object
+      required:
+        - id
+        - username
+        - role
+        - status
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        username:
+          type: string
+          example: organizer_ivan
+        role:
+          type: string
+          enum:
+            - chief_organizer
+            - secretary
+            - timing
+            - observer
+          example: chief_organizer
+        status:
+          type: string
+          enum:
+            - active
+            - locked
+          example: active
+        created_at:
+          type: string
+          format: date-time
+          example: '2025-12-17T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2025-12-17T10:30:00Z'
+        last_login_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2025-12-17T15:45:00Z'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: Код ошибки
+              example: VALIDATION_ERROR
+            message:
+              type: string
+              description: Описание ошибки на русском языке
+              example: Ошибка валидации данных
+            details:
+              type: array
+              description: Детали ошибки (для валидации)
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  message:
+                    type: string
+
+    PaginationMeta:
+      type: object
+      required:
+        - page
+        - per_page
+        - total
+        - total_pages
+      properties:
+        page:
+          type: integer
+          example: 1
+        per_page:
+          type: integer
+          example: 20
+        total:
+          type: integer
+          description: Общее количество записей
+          example: 42
+        total_pages:
+          type: integer
+          description: Общее количество страниц
+          example: 3
+
+  examples:
+    RegisterRequestExample:
+      value:
+        username: organizer_ivan
+        password: SecurePassword123
+        password_confirm: SecurePassword123
+
+    LoginRequestExample:
+      value:
+        username: organizer_ivan
+        password: SecurePassword123
+
+    UserResponseExample:
+      value:
+        id: 123e4567-e89b-12d3-a456-426614174000
+        username: organizer_ivan
+        role: chief_organizer
+        status: active
+        created_at: '2025-12-17T10:30:00Z'
+        updated_at: '2025-12-17T10:30:00Z'
+        last_login_at: '2025-12-17T15:45:00Z'
+
