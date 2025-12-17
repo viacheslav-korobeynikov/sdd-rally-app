@@ -27,9 +27,9 @@
 
 **Цель**: Инициализация проекта и базовая структура
 
-- [ ] T001 Инициализировать Go модуль: `go mod init github.com/your-org/sdd-rally-app`
-- [ ] T002 Создать структуру директорий согласно plan.md: `cmd/server/`, `internal/auth/`, `internal/middleware/`, `internal/database/`, `internal/shared/`, `internal/config/`, `web/templates/`, `web/static/`, `tests/`
-- [ ] T003 [P] Создать `.gitignore` с правилами для Go проекта (бинарники, vendor, .env.local)
+- [X] T001 Инициализировать Go модуль: `go mod init github.com/your-org/sdd-rally-app`
+- [X] T002 Создать структуру директорий согласно plan.md: `cmd/server/`, `internal/auth/`, `internal/middleware/`, `internal/database/`, `internal/shared/`, `internal/config/`, `web/templates/`, `web/static/`, `tests/`
+- [X] T003 [P] Создать `.gitignore` с правилами для Go проекта (бинарники, vendor, .env.local)
 - [ ] T004 [P] Создать `docker-compose.yml` для локального окружения (PostgreSQL + backend)
 - [ ] T005 [P] Создать `.air.toml` конфигурацию для hot reload (air tool)
 - [ ] T006 Установить основные зависимости: `go get github.com/gofiber/fiber/v2 github.com/jackc/pgx/v5 github.com/a-h/templ github.com/rs/zerolog github.com/go-playground/validator/v10 github.com/google/uuid golang.org/x/crypto`
