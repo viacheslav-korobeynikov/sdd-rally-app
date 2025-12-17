@@ -82,3 +82,7 @@ docker-compose.override.yml
 # === Uploads (local development) ===
 /uploads
 /public/uploads
+
+*.sh
+*.ps1
+/scripts
