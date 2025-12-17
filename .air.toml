@@ -1,0 +1,112 @@
+# Air - Live reload for Go apps
+# https://github.com/cosmtrek/air
+
+root = "."
+testdata_dir = "testdata"
+tmp_dir = "tmp"
+
+[build]
+# Аргументы для запуска бинарника
+args_bin = []
+
+# Путь к скомпилированному бинарнику
+bin = "tmp\\main.exe"
+
+# Команда сборки (указываем путь к cmd/server)
+cmd = "go build -o ./tmp/main.exe ./cmd/server"
+
+# Задержка перед перезапуском (мс)
+delay = 1000
+
+# Точка входа
+entrypoint = ["tmp\\main.exe"]
+
+# Исключаемые директории
+exclude_dir = [
+  "assets",
+  "tmp",
+  "vendor",
+  "testdata",
+  "tests",
+  "specs",
+  "docs",
+  "scripts",
+  ".git",
+  ".vscode",
+  ".idea",
+]
+
+# Исключаемые файлы
+exclude_file = []
+
+# Исключаемые по regex (тесты не триггерят rebuild)
+exclude_regex = ["_test\\.go"]
+
+# Пересобирать только при изменении файлов
+exclude_unchanged = true
+
+# Следовать за symlinks
+follow_symlink = false
+
+# Полная команда запуска (если нужны переменные окружения)
+full_bin = ""
+
+# Включаемые директории (пустой = все)
+include_dir = []
+
+# Отслеживаемые расширения файлов
+include_ext = ["go", "templ", "tpl", "tmpl", "html", "css", "js"]
+
+# Дополнительные файлы для отслеживания
+include_file = []
+
+# Задержка перед kill процесса
+kill_delay = "500ms"
+
+# Лог ошибок сборки
+log = "tmp/build-errors.log"
+
+# Использовать polling вместо fsnotify (для некоторых ОС)
+poll = false
+poll_interval = 0
+
+# Команды после сборки
+post_cmd = []
+
+# Команды перед сборкой (компиляция Templ шаблонов)
+pre_cmd = ["templ generate"]
+
+# Перезапуск при ошибках
+rerun = false
+rerun_delay = 500
+
+# Отправлять SIGINT вместо SIGKILL
+send_interrupt = true
+
+# Останавливать при ошибках сборки
+stop_on_error = true
+
+[color]
+app = ""
+build = "yellow"
+main = "magenta"
+runner = "green"
+watcher = "cyan"
+
+[log]
+main_only = false
+silent = false
+time = false
+
+[misc]
+clean_on_exit = false
+
+[proxy]
+app_port = 0
+enabled = false
+proxy_port = 0
+
+[screen]
+# Очищать экран при пересборке
+clear_on_rebuild = true
+keep_scroll = true
