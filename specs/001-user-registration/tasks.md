@@ -32,8 +32,8 @@
 - [X] T003 [P] Создать `.gitignore` с правилами для Go проекта (бинарники, vendor, .env.local)
 - [X] T004 [P] Создать `docker-compose.yml` для локального окружения (PostgreSQL + backend)
 - [X] T005 [P] Создать `.air.toml` конфигурацию для hot reload (air tool)
-- [ ] T006 Установить основные зависимости: `go get github.com/gofiber/fiber/v2 github.com/jackc/pgx/v5 github.com/a-h/templ github.com/rs/zerolog github.com/go-playground/validator/v10 github.com/google/uuid golang.org/x/crypto`
-- [ ] T007 Установить инструменты разработки: `go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest`, `go install github.com/cosmtrek/air@latest`, `go install github.com/a-h/templ/cmd/templ@latest`
+- [X] T006 Установить основные зависимости: `go get github.com/gofiber/fiber/v2 github.com/jackc/pgx/v5 github.com/a-h/templ github.com/rs/zerolog github.com/go-playground/validator/v10 github.com/google/uuid golang.org/x/crypto`
+- [X] T007 Установить инструменты разработки: `go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest`, `go install github.com/cosmtrek/air@latest`, `go install github.com/a-h/templ/cmd/templ@latest`
 
 ---
 
@@ -59,7 +59,7 @@
 
 ### Configuration & Shared Services
 
-- [ ] T019 [P] Создать `internal/config/config.go` с загрузкой конфигурации из переменных окружения (.env.local)
+- [X] T019 [P] Создать `internal/config/config.go` с загрузкой конфигурации из переменных окружения (.env.local)
 - [ ] T020 [P] Создать `internal/shared/logger/logger.go` с настройкой zerolog (JSON формат, уровни логирования)
 - [ ] T021 [P] Создать `internal/shared/errors/errors.go` с доменными типами ошибок (ErrUsernameTaken, ErrInvalidCredentials, ErrAccountLocked)
 - [ ] T022 [P] Создать `internal/shared/validator/validator.go` с настройкой go-playground/validator
