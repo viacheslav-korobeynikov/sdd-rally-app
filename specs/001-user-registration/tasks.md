@@ -62,7 +62,7 @@
 - [X] T019 [P] Создать `internal/config/config.go` с загрузкой конфигурации из переменных окружения (.env.local)
 - [X] T020 [P] Создать `internal/shared/logger/logger.go` с настройкой zerolog (JSON формат, уровни логирования)
 - [X] T021 [P] Создать `internal/shared/errors/errors.go` с доменными типами ошибок (ErrUsernameTaken, ErrInvalidCredentials, ErrAccountLocked)
-- [ ] T022 [P] Создать `internal/shared/validator/validator.go` с настройкой go-playground/validator
+- [X] T022 [P] Создать `internal/shared/validator/validator.go` с настройкой go-playground/validator
 
 ### Middleware Infrastructure
 
