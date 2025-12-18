@@ -66,8 +66,8 @@
 
 ### Middleware Infrastructure
 
-- [ ] T023 [P] Создать `internal/middleware/logging.go` с middleware для логирования HTTP запросов (zerolog)
-- [ ] T024 [P] Создать `internal/middleware/security_headers.go` с middleware для security headers (CSP, X-Frame-Options, X-Content-Type-Options)
+- [X] T023 [P] Создать `internal/middleware/logging.go` с middleware для логирования HTTP запросов (zerolog)
+- [X] T024 [P] Создать `internal/middleware/security_headers.go` с middleware для security headers (CSP, X-Frame-Options, X-Content-Type-Options)
 - [ ] T025 [P] Создать `internal/middleware/cors.go` с middleware для CORS конфигурации
 - [ ] T026 [P] Создать `internal/middleware/csrf.go` с middleware для CSRF защиты (fiber csrf middleware)
 - [ ] T027 [P] Создать `internal/middleware/rate_limit.go` с кастомным rate limiting middleware (in-memory store с sync.Map)
