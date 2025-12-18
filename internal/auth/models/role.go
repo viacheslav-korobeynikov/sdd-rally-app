@@ -1,1 +1,1 @@
-package models
+package auth_models

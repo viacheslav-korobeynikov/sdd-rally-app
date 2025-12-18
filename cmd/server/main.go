@@ -1,8 +1,12 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"github.com/gofiber/fiber/v2"
+	"github.com/viacheslav-korobeynikov/sdd-rally-app/internal/config"
+)
 
 func main() {
+	config.Init()
 	// Создание инстанса приложения Fiber
 	app := fiber.New()
 
