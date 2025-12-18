@@ -45,7 +45,7 @@
 
 ### Database & Migrations
 
-- [ ] T008 Создать `internal/database/postgres.go` с функцией подключения к PostgreSQL через pgx connection pool
+- [X] T008 Создать `internal/database/postgres.go` с функцией подключения к PostgreSQL через pgx connection pool
 - [ ] T009 Создать миграцию `internal/database/migrations/001_create_enum_types.up.sql` для enum типов (user_role, user_status)
 - [ ] T010 Создать миграцию `internal/database/migrations/001_create_enum_types.down.sql` для отката enum типов
 - [ ] T011 Создать миграцию `internal/database/migrations/002_create_users.up.sql` для таблицы users

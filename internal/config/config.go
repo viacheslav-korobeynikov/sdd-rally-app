@@ -59,3 +59,25 @@ func NewLogConfig() *LogConfig {
 		Format: getString("LOG_FORMAT", "json"),
 	}
 }
+
+// Структура конфига подключения к БД
+type DatabaseConfig struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Name     string
+	SSLMode  string
+}
+
+// Извлечение конфига БД из переменной окружения
+func NewDatabaseConfig() *DatabaseConfig {
+	return &DatabaseConfig{
+		Host:     getString("PGHOST", "localhost"),
+		Port:     getInt("PGPORT", 5432),
+		User:     getString("PGUSER", "postgres"),
+		Password: getString("PGPASSWORD", "postgres"),
+		Name:     getString("PGDATABASE", "rally"),
+		SSLMode:  getString("PGSSLMODE", "disable"),
+	}
+}
