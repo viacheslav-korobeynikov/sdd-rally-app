@@ -1,2 +1,8 @@
 # env file
 .env
+.sh
+.ps1
+/scripts
+*.cmd
+/postgres-data
+/tmp

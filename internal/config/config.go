@@ -73,11 +73,11 @@ type DatabaseConfig struct {
 // Извлечение конфига БД из переменной окружения
 func NewDatabaseConfig() *DatabaseConfig {
 	return &DatabaseConfig{
-		Host:     getString("PGHOST", "localhost"),
-		Port:     getInt("PGPORT", 5432),
-		User:     getString("PGUSER", "postgres"),
-		Password: getString("PGPASSWORD", "postgres"),
-		Name:     getString("PGDATABASE", "rally"),
-		SSLMode:  getString("PGSSLMODE", "disable"),
+		Host:     getString("DB_HOST", "localhost"),
+		Port:     getInt("DB_PORT", 5432),
+		User:     getString("DB_USER", "postgres"),
+		Password: getString("DB_PASSWORD", "postgres"),
+		Name:     getString("DB_DATABASE", "rally"),
+		SSLMode:  getString("DB_SSLMODE", "disable"),
 	}
 }

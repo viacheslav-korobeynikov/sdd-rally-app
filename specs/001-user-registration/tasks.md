@@ -46,16 +46,16 @@
 ### Database & Migrations
 
 - [X] T008 Создать `internal/database/postgres.go` с функцией подключения к PostgreSQL через pgx connection pool
-- [ ] T009 Создать миграцию `internal/database/migrations/001_create_enum_types.up.sql` для enum типов (user_role, user_status)
-- [ ] T010 Создать миграцию `internal/database/migrations/001_create_enum_types.down.sql` для отката enum типов
-- [ ] T011 Создать миграцию `internal/database/migrations/002_create_users.up.sql` для таблицы users
-- [ ] T012 Создать миграцию `internal/database/migrations/002_create_users.down.sql` для отката таблицы users
-- [ ] T013 Создать миграцию `internal/database/migrations/003_create_sessions.up.sql` для таблицы sessions
-- [ ] T014 Создать миграцию `internal/database/migrations/003_create_sessions.down.sql` для отката таблицы sessions
-- [ ] T015 Создать миграцию `internal/database/migrations/004_create_login_attempts.up.sql` для таблицы login_attempts
-- [ ] T016 Создать миграцию `internal/database/migrations/004_create_login_attempts.down.sql` для отката таблицы login_attempts
-- [ ] T017 Создать миграцию `internal/database/migrations/005_create_role_changes.up.sql` для таблицы role_changes
-- [ ] T018 Создать миграцию `internal/database/migrations/005_create_role_changes.down.sql` для отката таблицы role_changes
+- [X] T009 Создать миграцию `internal/database/migrations/001_create_enum_types.up.sql` для enum типов (user_role, user_status)
+- [X] T010 Создать миграцию `internal/database/migrations/001_create_enum_types.down.sql` для отката enum типов
+- [X] T011 Создать миграцию `internal/database/migrations/002_create_users.up.sql` для таблицы users
+- [X] T012 Создать миграцию `internal/database/migrations/002_create_users.down.sql` для отката таблицы users
+- [X] T013 Создать миграцию `internal/database/migrations/003_create_sessions.up.sql` для таблицы sessions
+- [X] T014 Создать миграцию `internal/database/migrations/003_create_sessions.down.sql` для отката таблицы sessions
+- [X] T015 Создать миграцию `internal/database/migrations/004_create_login_attempts.up.sql` для таблицы login_attempts
+- [X] T016 Создать миграцию `internal/database/migrations/004_create_login_attempts.down.sql` для отката таблицы login_attempts
+- [X] T017 Создать миграцию `internal/database/migrations/005_create_role_changes.up.sql` для таблицы role_changes
+- [X] T018 Создать миграцию `internal/database/migrations/005_create_role_changes.down.sql` для отката таблицы role_changes
 
 ### Configuration & Shared Services
 
