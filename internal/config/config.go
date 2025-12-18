@@ -45,3 +45,17 @@ func getBool(key string, defaultValue bool) bool {
 	}
 	return b
 }
+
+// Структура конфига логов
+type LogConfig struct {
+	Level  int
+	Format string
+}
+
+// Извлечение конфига логов из переменной окружения
+func NewLogConfig() *LogConfig {
+	return &LogConfig{
+		Level:  getInt("LOG_LEVEL", 0),
+		Format: getString("LOG_FORMAT", "json"),
+	}
+}
