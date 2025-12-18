@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/viacheslav-korobeynikov/sdd-rally-app/internal/config"
 	"github.com/viacheslav-korobeynikov/sdd-rally-app/internal/database"
-	"github.com/viacheslav-korobeynikov/sdd-rally-app/internal/middleware"
+	"github.com/viacheslav-korobeynikov/sdd-rally-app/internal/shared/logger"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	logConfig := config.NewLogConfig()
 	// Вызов конфигурации БД
 	dbConfig := config.NewDatabaseConfig()
-	customLogger := middleware.NewLogger(logConfig)
+	customLogger := logger.NewLogger(logConfig)
 	// Создание инстанса приложения Fiber
 	app := fiber.New()
 
