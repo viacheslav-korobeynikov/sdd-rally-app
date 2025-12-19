@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  # PostgreSQL база данных
+  postgres:
+    image: postgres:15-alpine
+    container_name: sdd-rally-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: rally_dev
+      POSTGRES_USER: rally_user
+      POSTGRES_PASSWORD: rally_dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rally_user -d rally_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - rally-network
+
+  # Backend сервис (раскомментировать после создания cmd/server/main.go)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sdd-rally-backend
+    restart: unless-stopped
+    environment:
+      # Database
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: rally_dev
+      DB_USER: rally_user
+      DB_PASSWORD: rally_dev_password
+      DB_SSLMODE: disable
+
+      # Server
+      SERVER_PORT: 3000
+      SERVER_HOST: 0.0.0.0
+
+      # Session
+      SESSION_SECRET: dev-session-secret-change-in-production
+      SESSION_DURATION: 1h
+
+      # Security
+      CSRF_SECRET: dev-csrf-secret-change-in-production
+
+      # Logging
+      LOG_LEVEL: debug
+      LOG_FORMAT: json
+
+      # Environment
+      APP_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web/templates:/app/web/templates:ro
+      - ./web/static:/app/web/static:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - rally-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  rally-network:
+    driver: bridge

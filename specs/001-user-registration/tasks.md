@@ -27,13 +27,13 @@
 
 **Цель**: Инициализация проекта и базовая структура
 
-- [ ] T001 Инициализировать Go модуль: `go mod init github.com/your-org/sdd-rally-app`
-- [ ] T002 Создать структуру директорий согласно plan.md: `cmd/server/`, `internal/auth/`, `internal/middleware/`, `internal/database/`, `internal/shared/`, `internal/config/`, `web/templates/`, `web/static/`, `tests/`
-- [ ] T003 [P] Создать `.gitignore` с правилами для Go проекта (бинарники, vendor, .env.local)
-- [ ] T004 [P] Создать `docker-compose.yml` для локального окружения (PostgreSQL + backend)
-- [ ] T005 [P] Создать `.air.toml` конфигурацию для hot reload (air tool)
-- [ ] T006 Установить основные зависимости: `go get github.com/gofiber/fiber/v2 github.com/jackc/pgx/v5 github.com/a-h/templ github.com/rs/zerolog github.com/go-playground/validator/v10 github.com/google/uuid golang.org/x/crypto`
-- [ ] T007 Установить инструменты разработки: `go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest`, `go install github.com/cosmtrek/air@latest`, `go install github.com/a-h/templ/cmd/templ@latest`
+- [X] T001 Инициализировать Go модуль: `go mod init github.com/your-org/sdd-rally-app`
+- [X] T002 Создать структуру директорий согласно plan.md: `cmd/server/`, `internal/auth/`, `internal/middleware/`, `internal/database/`, `internal/shared/`, `internal/config/`, `web/templates/`, `web/static/`, `tests/`
+- [X] T003 [P] Создать `.gitignore` с правилами для Go проекта (бинарники, vendor, .env.local)
+- [X] T004 [P] Создать `docker-compose.yml` для локального окружения (PostgreSQL + backend)
+- [X] T005 [P] Создать `.air.toml` конфигурацию для hot reload (air tool)
+- [X] T006 Установить основные зависимости: `go get github.com/gofiber/fiber/v2 github.com/jackc/pgx/v5 github.com/a-h/templ github.com/rs/zerolog github.com/go-playground/validator/v10 github.com/google/uuid golang.org/x/crypto`
+- [X] T007 Установить инструменты разработки: `go install github.com/golang-migrate/migrate/v4/cmd/migrate@latest`, `go install github.com/cosmtrek/air@latest`, `go install github.com/a-h/templ/cmd/templ@latest`
 
 ---
 
@@ -45,30 +45,30 @@
 
 ### Database & Migrations
 
-- [ ] T008 Создать `internal/database/postgres.go` с функцией подключения к PostgreSQL через pgx connection pool
-- [ ] T009 Создать миграцию `internal/database/migrations/001_create_enum_types.up.sql` для enum типов (user_role, user_status)
-- [ ] T010 Создать миграцию `internal/database/migrations/001_create_enum_types.down.sql` для отката enum типов
-- [ ] T011 Создать миграцию `internal/database/migrations/002_create_users.up.sql` для таблицы users
-- [ ] T012 Создать миграцию `internal/database/migrations/002_create_users.down.sql` для отката таблицы users
-- [ ] T013 Создать миграцию `internal/database/migrations/003_create_sessions.up.sql` для таблицы sessions
-- [ ] T014 Создать миграцию `internal/database/migrations/003_create_sessions.down.sql` для отката таблицы sessions
-- [ ] T015 Создать миграцию `internal/database/migrations/004_create_login_attempts.up.sql` для таблицы login_attempts
-- [ ] T016 Создать миграцию `internal/database/migrations/004_create_login_attempts.down.sql` для отката таблицы login_attempts
-- [ ] T017 Создать миграцию `internal/database/migrations/005_create_role_changes.up.sql` для таблицы role_changes
-- [ ] T018 Создать миграцию `internal/database/migrations/005_create_role_changes.down.sql` для отката таблицы role_changes
+- [X] T008 Создать `internal/database/postgres.go` с функцией подключения к PostgreSQL через pgx connection pool
+- [X] T009 Создать миграцию `internal/database/migrations/001_create_enum_types.up.sql` для enum типов (user_role, user_status)
+- [X] T010 Создать миграцию `internal/database/migrations/001_create_enum_types.down.sql` для отката enum типов
+- [X] T011 Создать миграцию `internal/database/migrations/002_create_users.up.sql` для таблицы users
+- [X] T012 Создать миграцию `internal/database/migrations/002_create_users.down.sql` для отката таблицы users
+- [X] T013 Создать миграцию `internal/database/migrations/003_create_sessions.up.sql` для таблицы sessions
+- [X] T014 Создать миграцию `internal/database/migrations/003_create_sessions.down.sql` для отката таблицы sessions
+- [X] T015 Создать миграцию `internal/database/migrations/004_create_login_attempts.up.sql` для таблицы login_attempts
+- [X] T016 Создать миграцию `internal/database/migrations/004_create_login_attempts.down.sql` для отката таблицы login_attempts
+- [X] T017 Создать миграцию `internal/database/migrations/005_create_role_changes.up.sql` для таблицы role_changes
+- [X] T018 Создать миграцию `internal/database/migrations/005_create_role_changes.down.sql` для отката таблицы role_changes
 
 ### Configuration & Shared Services
 
-- [ ] T019 [P] Создать `internal/config/config.go` с загрузкой конфигурации из переменных окружения (.env.local)
-- [ ] T020 [P] Создать `internal/shared/logger/logger.go` с настройкой zerolog (JSON формат, уровни логирования)
-- [ ] T021 [P] Создать `internal/shared/errors/errors.go` с доменными типами ошибок (ErrUsernameTaken, ErrInvalidCredentials, ErrAccountLocked)
-- [ ] T022 [P] Создать `internal/shared/validator/validator.go` с настройкой go-playground/validator
+- [X] T019 [P] Создать `internal/config/config.go` с загрузкой конфигурации из переменных окружения (.env.local)
+- [X] T020 [P] Создать `internal/shared/logger/logger.go` с настройкой zerolog (JSON формат, уровни логирования)
+- [X] T021 [P] Создать `internal/shared/errors/errors.go` с доменными типами ошибок (ErrUsernameTaken, ErrInvalidCredentials, ErrAccountLocked)
+- [X] T022 [P] Создать `internal/shared/validator/validator.go` с настройкой go-playground/validator
 
 ### Middleware Infrastructure
 
-- [ ] T023 [P] Создать `internal/middleware/logging.go` с middleware для логирования HTTP запросов (zerolog)
-- [ ] T024 [P] Создать `internal/middleware/security_headers.go` с middleware для security headers (CSP, X-Frame-Options, X-Content-Type-Options)
-- [ ] T025 [P] Создать `internal/middleware/cors.go` с middleware для CORS конфигурации
+- [X] T023 [P] Создать `internal/middleware/logging.go` с middleware для логирования HTTP запросов (zerolog)
+- [X] T024 [P] Создать `internal/middleware/security_headers.go` с middleware для security headers (CSP, X-Frame-Options, X-Content-Type-Options)
+- [X] T025 [P] Создать `internal/middleware/cors.go` с middleware для CORS конфигурации
 - [ ] T026 [P] Создать `internal/middleware/csrf.go` с middleware для CSRF защиты (fiber csrf middleware)
 - [ ] T027 [P] Создать `internal/middleware/rate_limit.go` с кастомным rate limiting middleware (in-memory store с sync.Map)
 - [ ] T028 Создать `internal/middleware/auth.go` с middleware для проверки аутентификации (RequireAuth())
